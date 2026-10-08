@@ -1,0 +1,213 @@
+{
+  "format_version": 2,
+  "version": "2.21",
+  "incremental": "2026100302",
+  "base_release": "2.20",
+  "base_fs": "base_fs/2.20.txt",
+  "changelog": "CHANGELOG.md in picomisu_manifest",
+  "name": "source-{version}",
+  "pico_build": "5.13.7 SEKO b9665",
+  "aosp_tag": "LA.UM.8.12.c3-64900-sm8250.0",
+  "patch_series": 124,
+  "tools": {
+    "assemble": "tools/assemble-source-image.py (--source-tree as WSL root, --stage, --build, --readback as WSL root)",
+    "check": "tools/check-source-image.py -> validation/source-2.21.json (PICO_TRIAL=source-2.21)"
+  },
+  "selection": {
+    "rule": "path level: a factory path the Source image does not contain is carried unless excluded below; a path present in both keeps the Source file unless listed in factory_over_source or generated; package level: a package name present in both keeps the Source APK unless listed in packages_factory_over_source; Source-only packages absent from the factory image are dropped (the factory package set is mirrored)",
+    "exclude_factory": {
+      "system/apex/**": "the Source APEXes (runtime/ART, conscrypt, media, resolv, tzdata) are used",
+      "system/etc/selinux/**": "the Source platform SELinux policy (factory parity, validation/sepolicy-parity.json) is used",
+      "**/oat/**": "factory odex/vdex/art were compiled against the factory boot image; the Source boot image differs, carried APKs are compiled on the device at first boot",
+      "**/*.odex": "same as oat",
+      "**/*.vdex": "same as oat",
+      "system/bin/install-recovery.sh": "trial only: the system image must not rewrite the recovery partition (the offline recovery can stay installed between trial iterations)",
+      "system/recovery-from-boot.p": "same as install-recovery.sh",
+      "lost+found": "created by mke2fs",
+      "system/pre_resource/sdcard/pre_resource/video/8K_Video_Demo_360.mp4": "size: the Source components (debug runtime APEX, larger libraries) add ~80 MiB over the factory content and the factory image had only 53 MiB free in the fixed 5704732672-byte logical system; this 300 MiB 8K demo video (copied to /sdcard on first run) is the only file dropped for space",
+      "system/priv-app/SystemUpdate2/**": "replaced by the Source Update app (device/pico/PICOA8110/source-update): same package com.picovr.updatesystem and components, installs signed Source OTA packages; the factory app would offer PICO firmware over Source"
+    },
+    "factory_over_source": {
+      "system/usr/keylayout/Generic.kl": "PICO controller keys (LCONTROLLER_HOME, RCONTROLLER_HOME, CAMERA, GESTURE_CALIBRATION)",
+      "system/etc/fonts.xml": "factory font configuration referencing the carried PICOSans fonts",
+      "system/etc/sysconfig/hiddenapi-package-whitelist.xml": "factory superset (com.ss.android.ttvr)",
+      "system/bin/toybox": "factory toybox: PICO applets and options without source (gtop GPU top over /proc/gpu_procs, run by SysPerfMonitorService every 10 s; top OOMS/OOMSJ/OOMJ fields; f2fs pin; swap); same NEEDED libraries as the Source toybox"
+    },
+    "packages_factory_over_source": {
+      "com.android.bluetooth": "factory PICO/QTI Bluetooth stack (factory-bluetooth.json)",
+      "com.android.packageinstaller": "factory PicoPackageInstaller (priv-app/PicoPackageInstaller) replaces the Source PackageInstaller as on 5.13.7",
+      "com.android.permissioncontroller": "factory PICO PermissionController renders runtime permission prompts in VR (VrGrantPermissionsActivity, PicoGrantPermissionsViewHandlerImpl, SurfaceProxy); the AOSP one shows invisible 2D dialogs (outputs/audit/config.md PKG-01)",
+      "com.android.providers.settings": "factory PICO SettingsProvider: initPicoSettings (force_resizable_activities=1, animation scales 0, safe_boot_disallowed), PICO defaults (screen_off_timeout -1, brightness 201, lockscreen disabled, immersive confirmed), stabd restore notification (outputs/audit/config.md SET-01..06)",
+      "com.android.networkstack.inprocess": "factory PICO InProcessNetworkStack (PICO TCP/slardar reporting strings, outputs/audit/config.md section 4)"
+    },
+    "factory_bluetooth_config": "device/pico/PICOA8110/factory-bluetooth.json",
+    "drop_source_packages_reason": "package absent from the factory 5.13.7 system/product/vendor/odm; not installed on the trial image so the package set equals the factory one",
+    "drop_source_files": {
+      "system/apex/com.android.apex.cts.shim.apex": "CTS shim APEX of updatable_apex.mk, absent from factory"
+    },
+    "carried_jars_not_on_classpath": [
+      "ActivityExt.jar",
+      "ConnectivityExt.jar",
+      "VendorPropExt.jar",
+      "audiosphere.jar",
+      "com.qti.location.sdk.jar",
+      "com.qti.snapdragon.sdk.display.jar",
+      "izat.xt.srv.jar",
+      "oem-services.jar",
+      "qmapbridge.jar",
+      "sys-sharememory.jar",
+      "sys-verifytool.jar",
+      "tcmclient.jar",
+      "wigig-service.jar"
+    ]
+  },
+  "signing": {
+    "analysis": "source-trial-01-plan.md, section Signing",
+    "keys_dir": "build/target/product/security",
+    "factory_cert_roles": {
+      "dc30289e0a61447d03c95d15e5acf63e18d109d545a766b1208f6b53cbdcd482": "platform",
+      "1bb6f2af942c3198c05625a3f0de59fe68189396d8735416cea4899cf98c5634": "media",
+      "7174f2d66dc4e844feef7addefcd1fb882acc3041653a867c3d85d7daea62c03": "shared"
+    },
+    "rule": "every carried factory system APK signed with a PICO role certificate is re-signed with the Source key of the same role (v1+v2, Source apksigner); other certificates are kept",
+    "shadow_partition_apks": {
+      "product/priv-app/Settings/Settings.apk": "system/priv-app/Settings/Settings.apk",
+      "product/app/QdcmFF/QdcmFF.apk": "system/app/QdcmFF/QdcmFF.apk",
+      "product/app/PowerOffAlarm/PowerOffAlarm.apk": "system/app/PowerOffAlarm/PowerOffAlarm.apk"
+    },
+    "shadow_reason": "android.uid.system members on the unchanged product partition: framework-res (scanned first) fixes the shared user certificate to the Source platform key, a later PICO-signed member fails with INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES. A re-signed copy on /system is scanned before /product; the product copy is then skipped as a duplicate package",
+    "mac_permissions_pico_signers": {
+      "dc30289e0a61447d03c95d15e5acf63e18d109d545a766b1208f6b53cbdcd482": "platform",
+      "1bb6f2af942c3198c05625a3f0de59fe68189396d8735416cea4899cf98c5634": "media"
+    },
+    "mac_permissions_reason": "trial only: apps left with the PICO certificate on product/vendor (android.uid.phone group, QTI product apps, vendor TimeService) keep the seinfo they had on 5.13.7; the entries are copied from the factory plat_mac_permissions.xml"
+  },
+  "generated": {
+    "system/build.prop": "Source build.prop + factory-only properties + trial identity (below)",
+    "system/etc/prop.default": "Source prop.default + trial debug properties",
+    "init.rc": "Source init.rc + PICO edits (init_rc_edits)",
+    "system/etc/ld.config.29.txt": "Source linker config + PICO edits (ld_config_edits)",
+    "system/etc/public.libraries.txt": "Source list + factory PICO/QTI public libraries",
+    "system/etc/selinux/plat_mac_permissions.xml": "Source + PICO signers (signing.mac_permissions_pico_signers)",
+    "system/etc/vintf/manifest.xml": "Source framework manifest + factory-only HALs served from system"
+  },
+  "extra_files": {
+    "system/bin/trial-snapshot.sh": {
+      "from": "trial-snapshot.sh",
+      "uid": 0,
+      "gid": 2000,
+      "mode": "0755",
+      "selinux": "u:object_r:system_file:s0",
+      "reason": "trial only: snapshots at 1, 3 and 7 minutes (props, processes, dmesg, SurfaceFlinger/window/activity/usb/adb) on /cache and Settings.Global.adb_enabled=1"
+    },
+    "adb_keys": {
+      "from": "~/.android/adbkey.pub",
+      "uid": 0,
+      "gid": 0,
+      "mode": "0644",
+      "selinux": "u:object_r:adb_keys_file:s0",
+      "reason": "trial only: adbd (system/core/adb/daemon/auth.cpp) trusts /adb_keys besides /data/misc/adb/adb_keys; the public ADB key of the project PC lets adb work after a userdata wipe although the factory vendor/default.prop forces ro.adb.secure=1",
+      "optional": true
+    }
+  },
+  "trial_properties": {
+    "system/build.prop": {
+      "ro.build.display.id": "Picomisu Source {version}",
+      "ro.build.id": "SOURCE_{version_id}",
+      "ro.system.build.id": "SOURCE_{version_id}",
+      "ro.build.version.incremental": "{incremental}",
+      "ro.system.build.version.incremental": "{incremental}",
+      "ro.build.fingerprint": "Pico/Phoenix_ovs/PICOA8110:10/SOURCE_{version_id}/{incremental}:userdebug/test-keys",
+      "ro.system.build.fingerprint": "Pico/Phoenix_ovs/PICOA8110:10/SOURCE_{version_id}/{incremental}:userdebug/test-keys",
+      "ro.build.version.security_patch": "2021-04-05",
+      "ro.product.locale": "zh-CN",
+      "ro.pico.aosp.trial": "source-{version}",
+      "ro.pico.aosp.tag": "LA.UM.8.12.c3-64900-sm8250.0",
+      "ro.pico.aosp.patches": "caf-rebase+pico-port-6k",
+      "ro.pico.aosp.factory_carried": "5.13.7-SEKO-b9665",
+      "ro.pico.aosp.base_spl": "2020-08-05",
+      "persist.logd.logpersistd": "logcatd",
+      "persist.logd.logpersistd.size": "1024",
+      "persist.logd.size": "16777216",
+      "persist.sys.disable_rescue": "true",
+      "ro.source.version": "{version}"
+    },
+    "system/etc/prop.default": {
+      "ro.adb.secure": "0",
+      "ro.logd.kernel": "true"
+    },
+    "reasons": {
+      "ro.build.version.security_patch": "kept at the factory 2021-04-05 like preview 01: equals the boot header SPL (2021-04) that the kept boot passes to Keymaster; the real Source base SPL is ro.pico.aosp.base_spl",
+      "ro.product.locale": "factory value",
+      "persist.logd.logpersistd*": "trial only: logcatd keeps up to 1024 x 1 MiB rotated logcat files in /data/misc/logd",
+      "persist.logd.size": "trial only: 16 MiB logd ring buffers",
+      "persist.sys.disable_rescue": "trial only: RescueParty must not send a crashing system_server to recovery with a wipe prompt",
+      "ro.adb.secure": "trial only: adbd without key authorization (userdebug, ro.debuggable=1, persist.sys.usb.config=adb); overridden on the device by the factory vendor/default.prop ro.adb.secure=1, see extra_files adb_keys",
+      "ro.logd.kernel": "factory prop.default value: logd collects the kernel log",
+      "ro.source.version": "Source release number (1.01, 1.02, ...); tools/source-ota.py reads it to pick the update base"
+    }
+  },
+  "init_rc_edits": [
+    {
+      "append": true,
+      "insert": [
+        "",
+        "# Source test builds: USB and TCP ADB at boot (the factory vendor forces persist.sys.usb.config=mtp).",
+        "on boot",
+        "    setprop persist.sys.usb.config mtp,adb",
+        "    setprop service.adb.tcp.port 5555"
+      ]
+    },
+    {
+      "append": true,
+      "insert": [
+        "",
+        "# source-trial-01b (trial only): the factory vendor copies persist.vendor.usb.config=mtp",
+        "# to persist.sys.usb.config; keep USB ADB on so a wiped trial is reachable over USB",
+        "on property:persist.sys.usb.config=mtp",
+        "    setprop persist.sys.usb.config mtp,adb"
+      ]
+    }
+  ],
+  "init_rc_not_applied": {
+    "note": "Source 2.04 builds the factory init.rc byte-identically (system/core 9c66c39); only the trial ADB/diagnostics appends are applied."
+  },
+  "ld_config_edits": [
+    {
+      "section": "system",
+      "after_last_prefix": "namespace.default.search.paths",
+      "insert": [
+        "namespace.default.search.paths += /system/${LIB}/soundfx"
+      ],
+      "reason": "factory: audioserver loads the spatializer effect (carried /system/lib64/soundfx/libspatializer.so)"
+    },
+    {
+      "section": "system",
+      "after_last_prefix": "namespace.default.permitted.paths",
+      "insert": [
+        "namespace.default.permitted.paths += /system/${LIB}/vklayer"
+      ],
+      "reason": "factory: carried Vulkan layers"
+    },
+    {
+      "section": "system",
+      "after_last_prefix": "namespace.default.asan.permitted.paths",
+      "insert": [
+        "namespace.default.asan.permitted.paths += /system/${LIB}/vklayer"
+      ],
+      "reason": "same"
+    },
+    {
+      "section": "vendor",
+      "after_last_prefix": "namespace.default.link.system.shared_libs",
+      "insert": [
+        "namespace.default.link.system.shared_libs += libstationclient.pxr.so"
+      ],
+      "reason": "factory (PICO VCMotor): vendor processes load the carried system libstationclient.pxr.so"
+    }
+  ],
+  "ld_config_not_applied": {
+    "/apex/com.pico.xrsystem and /apex/com.pico.xrservice search paths": "these APEXes do not exist on 5.13.7",
+    "runtime namespace links for libclang_rt.* sanitizer runtimes": "inert: neither the factory nor the Source runtime APEX contains these libraries"
+  }
+}
