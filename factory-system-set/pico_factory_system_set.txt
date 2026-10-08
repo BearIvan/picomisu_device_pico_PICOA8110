@@ -1,0 +1,1 @@
+Placeholder source of the uninstallable pico_factory_system_set module (Android.mk).

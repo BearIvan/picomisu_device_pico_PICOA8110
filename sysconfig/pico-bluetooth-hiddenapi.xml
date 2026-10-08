@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Factory qti_whitelist.xml entries for the preserved factory Bluetooth packages. -->
+<config>
+    <hidden-api-whitelisted-app package="com.android.bluetooth" />
+    <hidden-api-whitelisted-app package="org.codeaurora.bluetooth" />
+</config>

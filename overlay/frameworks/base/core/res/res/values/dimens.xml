@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Factory PICO OS 5.13.7: no status bar on the headset (1px, as the factory framework-res). -->
+<resources>
+    <dimen name="status_bar_height_portrait">1px</dimen>
+    <dimen name="status_bar_height_landscape">1px</dimen>
+    <dimen name="status_bar_height">1px</dimen>
+</resources>

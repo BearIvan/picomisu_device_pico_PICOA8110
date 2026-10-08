@@ -1,0 +1,18 @@
+# Picomisu Source: picofacialdatadaemon (external/picofacialdatadaemon) sends the eye and face
+# tracking data of pxreyetrackingservice over UDP to a VRCFaceTracking client it discovers through
+# multicast. Not in the factory 5.13.7 policy.
+type picofacialdatadaemon, domain, coredomain;
+type picofacialdatadaemon_exec, exec_type, file_type, system_file_type;
+
+init_daemon_domain(picofacialdatadaemon)
+net_domain(picofacialdatadaemon)
+binder_use(picofacialdatadaemon)
+
+# GetTrackingDataSharedMemory, Start/StopAlgorithm.
+allow picofacialdatadaemon pxreyetrackingservice_service:service_manager find;
+binder_call(picofacialdatadaemon, pxreyetrackingservice)
+
+# The factory nettools reads /proc/<pid> of every pxr service (pico_factory.te).
+allow nettools picofacialdatadaemon:dir { open read search };
+allow nettools picofacialdatadaemon:file { getattr open read };
+allow nettools picofacialdatadaemon:lnk_file read;

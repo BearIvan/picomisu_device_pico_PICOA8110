@@ -1,0 +1,7 @@
+# Picomisu Source additions (not in the factory 5.13.7 policy).
+
+/system/bin/picofacialdatadaemon	u:object_r:picofacialdatadaemon_exec:s0
+/system/bin/source_updaterd	u:object_r:source_updaterd_exec:s0
+/dev/socket/source_updater	u:object_r:source_updater_socket:s0
+/mnt/source-ota-cache(/.*)?	u:object_r:cache_file:s0
+/system/bin/source-firstboot\.sh	u:object_r:source_firstboot_exec:s0

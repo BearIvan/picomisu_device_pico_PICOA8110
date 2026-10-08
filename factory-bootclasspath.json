@@ -1,0 +1,174 @@
+{
+  "format_version": 1,
+  "pico_build": "5.13.7 SEKO b9665",
+  "decision": "The Source image uses the factory boot and system server class path order. Every factory boot JAR is on the Source BOOTCLASSPATH: telephony-ext and qcom.fmradio are built from their CodeLinaro LA.UM.8.12.c3-64900-sm8250.0 donors, the closed QTI and PICO/Smartisan JARs are the factory binaries (factory-framework/Android.bp, extracted by tools/install-device-tree.py) linked against the ported Smartisan framework layer. Every factory system server JAR is on the Source SYSTEMSERVERCLASSPATH in the factory order (sys-services, sysmonitor-services, vrex-services before services.jar): since Source 2.03 the services.jar Smartisan layer and the hook sites that sys-services and sysmonitor-services link against and call into are ported (outputs/audit/rebase-log.md, pass 4); the remaining link gaps are listed as accepted gaps.",
+  "validation": "tools/check-factory-component.py -> validation/factory-bootclasspath.json",
+  "product_configuration": {
+    "device.mk": "PRODUCT_BOOT_JARS_BEFORE_FRAMEWORK (sysmonitor-framework sys-framework devicemiddlewareimpl vrex-framework), PRODUCT_BOOT_JARS += tcmiface telephony-ext qcom.fmradio QPerformance UxPerformance WfdCommon, PRODUCT_SYSTEM_SERVER_JARS_BEFORE_SERVICES sys-services sysmonitor-services vrex-services, PRODUCT_PACKAGES for all of them",
+    "build/make": "PRODUCT_BOOT_JARS_BEFORE_FRAMEWORK/PRODUCT_SYSTEM_SERVER_JARS_BEFORE_SERVICES product variables and check_boot_jars package whitelist entries",
+    "hiddenapi": "factory binaries keep the hidden-API flags encoded in their factory DEX (dex_import does not re-encode); CodeLinaro builds are encoded by the Source hiddenapi rule and compared with the factory flags",
+    "dexpreopt": "factory oat/vdex are not used; the boot JARs are compiled into the Source boot image and the system server JARs are dexpreopted against it"
+  },
+  "jars": {
+    "sysmonitor-framework": {
+      "classpath": "boot",
+      "factory_path": "system/framework/sysmonitor-framework.jar",
+      "factory_sha256": "f5210d68e6d64cf856f1086b1bcdd509f7291822a44c208d2f3f45c40d600500",
+      "provenance": "PICO/Smartisan proprietary (android.casthal, IDataReport*, AnrLogger, SysMonitorFwFactoryImpl, BatteryStatsImplOptEx, smartisanos.util); no source donor",
+      "decision": "factory_binary",
+      "entry_points": "framework SysMonitorFwBridge loads android.app.SysMonitorFwFactoryImpl; sys-framework SysFwFactoryImpl extends it",
+      "consumers": [
+        "framework.jar (reflection)",
+        "sys-framework.jar",
+        "sysmonitor-services.jar"
+      ],
+      "accepted_gaps": {}
+    },
+    "sys-framework": {
+      "classpath": "boot",
+      "factory_path": "system/framework/sys-framework.jar",
+      "factory_sha256": "6d2bed55033a8b23be7f4d8ad51720f748d2cfcdb5b1cc3c399fc178f9614ac1",
+      "provenance": "PICO/Smartisan proprietary (SysFwFactoryImpl, ArtTracerUtils, MemClient, BootReceiverPhone); no source donor",
+      "decision": "factory_binary",
+      "entry_points": "framework SysFwBridge loads android.app.SysFwFactoryImpl",
+      "consumers": [
+        "framework.jar (reflection)"
+      ],
+      "accepted_gaps": {}
+    },
+    "devicemiddlewareimpl": {
+      "classpath": "boot",
+      "factory_path": "system/framework/devicemiddlewareimpl.jar",
+      "factory_sha256": "fd208b7b48dd963373bf4ff45ec2ec60219e7395c8c75f87af1051c6eb9500d4",
+      "provenance": "PICO proprietary (picodevice.*: DeviceContext, ScheduleExt, SysDataSyncExt); no source donor",
+      "decision": "factory_binary",
+      "entry_points": "none found statically in factory framework, services or apps (public picodevice API)",
+      "consumers": [],
+      "accepted_gaps": {}
+    },
+    "vrex-framework": {
+      "classpath": "boot",
+      "factory_path": "system/framework/vrex-framework.jar",
+      "factory_sha256": "8dcc98da32409a588e4b481e4eda0c9549879db5242a96a69ecd61b38c4956fd",
+      "provenance": "PICO proprietary test extension (android.os.Apitest1Impl implements framework IApitest1); no source donor",
+      "decision": "factory_binary",
+      "entry_points": "none found statically",
+      "consumers": [],
+      "accepted_gaps": {}
+    },
+    "tcmiface": {
+      "classpath": "boot",
+      "factory_path": "system/framework/tcmiface.jar",
+      "factory_sha256": "202cc0277d614d83b68ffae040c1af570c726c3b14f56fba34ae8a55e8395fc9",
+      "provenance": "QTI closed (DPM TCM interface com.quicinc.tcmiface.DpmTcmIface); not in CodeLinaro LA.UM.8.12.c3-64900 (platform/vendor/qcom-opensource/dpm has no tcmiface)",
+      "decision": "factory_binary",
+      "entry_points": "used by factory tcmclient.jar (DPM client, not on the Source class path)",
+      "consumers": [
+        "system/framework/tcmclient.jar"
+      ],
+      "accepted_gaps": {}
+    },
+    "telephony-ext": {
+      "classpath": "boot",
+      "factory_path": "system/framework/telephony-ext.jar",
+      "factory_sha256": "19737860d2f56e8d754a77422c7b3a17dad598320f9480b760f0312c4be889f4",
+      "provenance": "QTI open: CodeLinaro platform/vendor/codeaurora/telephony internal/ (27d0001003086c8e8889b69fbfa260bb7804740e), Source component vendor/codeaurora/telephony",
+      "decision": "codelinaro_source",
+      "module": "telephony-ext",
+      "entry_points": "no extphone server on the factory; IExtTelephony$Stub.asInterface(ServiceManager.getService(\"extphone\")) returns null",
+      "consumers": [
+        "product/priv-app/Settings/Settings.apk (SettingsActivity.switchToFragment calls IExtTelephony$Stub.asInterface unconditionally)",
+        "system/framework/ConnectivityExt.jar",
+        "system/framework/telephony-common.jar (factory CodeLinaro build)",
+        "system/framework/sysmonitor-services.jar"
+      ],
+      "accepted_gaps": {}
+    },
+    "qcom.fmradio": {
+      "classpath": "boot",
+      "factory_path": "system/framework/qcom.fmradio.jar",
+      "factory_sha256": "4ad890593acc89c3e900f9658bfdfa06780fd1f4c39b821bbd0792b20284a766",
+      "provenance": "QTI open: CodeLinaro platform/vendor/qcom-opensource/fm-commonsys (0d397db45c79034fdefc1c78e2fd8fee6c724368), Source component vendor/qcom/opensource/fm-commonsys",
+      "decision": "codelinaro_source",
+      "module": "qcom.fmradio",
+      "entry_points": "no factory consumer; FmReceiverJNI loads libqcomfm_jni only when an FM API is used (the headset has no FM receiver; BOARD_HAVE_QCOM_FM is not set, the JNI/HAL libraries are not built)",
+      "consumers": [],
+      "accepted_gaps": {}
+    },
+    "QPerformance": {
+      "classpath": "boot",
+      "factory_path": "system/framework/QPerformance.jar",
+      "factory_sha256": "44c1b57b3a0571757837eeefac74c6d0ee0d61a4f740b45fb62af717ec264e90",
+      "provenance": "QTI closed perf (com.qualcomm.qti.Performance, IPerfManager; server /system/bin/perfservice vendor.perfservice); not in CodeLinaro",
+      "decision": "factory_binary",
+      "entry_points": "framework android.util.BoostFramework loads com.qualcomm.qti.Performance by reflection",
+      "consumers": [
+        "framework.jar (reflection)",
+        "UxPerformance.jar",
+        "sys-services.jar"
+      ],
+      "accepted_gaps": {}
+    },
+    "UxPerformance": {
+      "classpath": "boot",
+      "factory_path": "system/framework/UxPerformance.jar",
+      "factory_sha256": "721bcaacb5a2a66e72f247fdbb14c377d9750f4faf07daedbe2c7ed628624327",
+      "provenance": "QTI closed perf (com.qualcomm.qti.UxPerformance); not in CodeLinaro",
+      "decision": "factory_binary",
+      "entry_points": "framework android.util.BoostFramework loads com.qualcomm.qti.UxPerformance by reflection",
+      "consumers": [
+        "framework.jar (reflection)"
+      ],
+      "accepted_gaps": {}
+    },
+    "WfdCommon": {
+      "classpath": "boot",
+      "factory_path": "system/framework/WfdCommon.jar",
+      "factory_sha256": "7ce102a3585bf6d5eddc8e8ae502f59daab3e06e91568176f6932f5860ada430",
+      "provenance": "QTI closed WFD (com.qualcomm.wfd.*); CodeLinaro wfd-commonsys LA.UM.8.12.c3-64900 only has libaac",
+      "decision": "factory_binary",
+      "entry_points": "factory services ExtendedRemoteDisplayHelper loads com.qualcomm.wfd.ExtendedRemoteDisplay (CodeLinaro frameworks/base display path, not yet in Source services); factory WfdService.apk",
+      "consumers": [
+        "services.jar (reflection, factory only)"
+      ],
+      "accepted_gaps": {}
+    },
+    "sys-services": {
+      "classpath": "systemserver",
+      "factory_path": "system/framework/sys-services.jar",
+      "factory_sha256": "fdac1687b2dc8d4a4a0f2d4d1624b70559cd4d50d87c408750744ac065e78b1f",
+      "provenance": "PICO/Smartisan proprietary system_server optimisations (SysSvsFactoryImpl extends sysmonitor-services SysMonitorSvcFactoryImpl: ApplicationFreezer, FreezeController, PrefetchManagerService, MemoryReclaimer, MemoryProcessController, SmartService, SmartScenes, SmartisanPowerAdvisor, QuickBootStateMachine, SysTransServer ...); no source donor",
+      "decision": "factory_binary",
+      "consumers": [
+        "services.jar (reflection and Smartisan hook sites)"
+      ],
+      "entry_points": "services.jar SysOptBridge loads com.android.server.am.SysSvsFactoryImpl; hook sites in AMS/ProcessList/OomAdjuster/ActiveServices/BroadcastQueue/ActivityStack/PowerManagerService/SystemServer ...",
+      "accepted_gaps": {}
+    },
+    "sysmonitor-services": {
+      "classpath": "systemserver",
+      "factory_path": "system/framework/sysmonitor-services.jar",
+      "factory_sha256": "51ac945b8d822e7074e47175b36c6a9c20a8b252b425538a040f8896d0b03a79",
+      "provenance": "PICO/Smartisan/ByteDance proprietary monitoring (com.smartisan.monitor, TransferServer \"transferserver\", AnrMonitor, jank, slardaros client, SysMonitorSvcFactoryImpl); no source donor",
+      "decision": "factory_binary",
+      "consumers": [
+        "services.jar (reflection and Smartisan hook sites)",
+        "sys-services.jar",
+        "wifi-service.jar",
+        "system/priv-app/PicoSyshub/PicoSyshub.apk"
+      ],
+      "entry_points": "services.jar SysMonitorSvcBridge loads com.android.server.am.SysMonitorSvcFactoryImpl (also the superclass of sys-services SysSvsFactoryImpl); ActivityManagerServiceSmtBase.setSystemProcess publishes its TransferServer",
+      "accepted_gaps": {}
+    },
+    "vrex-services": {
+      "classpath": "systemserver",
+      "factory_path": "system/framework/vrex-services.jar",
+      "factory_sha256": "8448e7e64a32bb4cd4a03315843a8c85692e59da8ecfe77705e25598118b2ebb",
+      "provenance": "PICO proprietary test extension (com.android.server.Apitest2Impl implements services IApitest2); no source donor",
+      "decision": "factory_binary",
+      "entry_points": "none found statically",
+      "consumers": [],
+      "accepted_gaps": {}
+    }
+  }
+}

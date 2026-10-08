@@ -1,0 +1,24 @@
+// Picomisu Source Update: replaces the factory SystemUpdate2 (same package name and components, so
+// PICO Settings embeds it and Provision/Matrix/VersionManager still find it) and installs signed
+// Source OTA packages through source_updaterd. See outputs/audit/pico-system-update-ui-spec.md.
+android_app {
+    name: "SourceUpdate",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    privileged: true,
+    platform_apis: true,
+    required: ["source_updaterd", "source_otacerts.zip", "privapp-permissions-sourceupdate.xml"],
+}
+
+prebuilt_etc {
+    name: "source_otacerts.zip",
+    src: "source_otacerts.zip",
+    sub_dir: "security",
+}
+
+prebuilt_etc {
+    name: "privapp-permissions-sourceupdate.xml",
+    src: "privapp-permissions-sourceupdate.xml",
+    sub_dir: "permissions",
+}

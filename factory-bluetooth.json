@@ -1,0 +1,83 @@
+{
+  "format_version": 1,
+  "pico_build": "5.13.7 SEKO b9665",
+  "decision": "Source image keeps the factory PICO/QTI Bluetooth stack instead of AOSP packages/apps/Bluetooth and system/bt. The framework side stays Source with the factory IBluetooth transaction table (patches 0048-0049). Restoring an own QTI stack is deferred (REMAINING-WORK.md).",
+  "preserve": [
+    "system/app/Bluetooth/Bluetooth.apk",
+    "system/app/Bluetooth/lib/arm64/libbluetooth_jni.so",
+    "system/app/BluetoothExt/BluetoothExt.apk",
+    "system/lib64/libbluetooth_jni.so",
+    "system/lib64/libbluetooth_qti.so",
+    "system/lib64/libbluetooth.so",
+    "system/lib64/libbluetooth-binder.so",
+    "system/lib64/libbtconfigstore.so",
+    "system/lib64/libldacBT_abr.so",
+    "system/lib64/libldacBT_enc.so",
+    "system/lib64/hw/audio.a2dp.default.so",
+    "system/lib/libbluetooth_qti.so",
+    "system/lib/libbluetooth.so",
+    "system/lib/libbtconfigstore.so",
+    "system/lib/libldacBT_abr.so",
+    "system/lib/libldacBT_enc.so",
+    "system/lib/hw/audio.a2dp.default.so",
+    "system/bin/bt_logger",
+    "system/etc/bluetooth/bt_configstore.conf",
+    "system/etc/bluetooth/bt_did.conf",
+    "system/etc/bluetooth/bt_profile.conf",
+    "system/etc/bluetooth/bt_stack.conf"
+  ],
+  "not_copied": {
+    "system/app/Bluetooth/oat": "odex/vdex were compiled against the factory boot image; the Source boot classpath differs, so they are dropped and the APK is compiled for the Source boot image",
+    "system/app/BluetoothExt/oat": "same reason as Bluetooth/oat"
+  },
+  "replaces_aosp_modules": [
+    "Bluetooth",
+    "libbluetooth",
+    "libbluetooth_jni",
+    "libbluetooth-binder",
+    "audio.a2dp.default",
+    "libldacBT_abr",
+    "libldacBT_enc",
+    "bt_stack.conf",
+    "bt_did.conf"
+  ],
+  "system_configuration": {
+    "package": "com.android.bluetooth, sharedUserId android.uid.bluetooth; org.codeaurora.bluetooth (BluetoothExt, IBluetoothDun server)",
+    "certificate": "factory APK signatures are kept (PRESIGNED); android.uid.bluetooth and signature permissions require the Source platform packages to use the same certificate set as the factory preserved layer",
+    "uses_library": [
+      "javax.obex",
+      "org.apache.http.legacy"
+    ],
+    "sysconfig": "hidden-api-whitelisted-app com.android.bluetooth and org.codeaurora.bluetooth (factory system/etc/sysconfig/qti_whitelist.xml)",
+    "permissions": "BLUETOOTH, BLUETOOTH_ADMIN, BLUETOOTH_STACK group mapping as in factory system/etc/permissions/platform.xml",
+    "selinux": "plat_seapp_contexts user=bluetooth domain=bluetooth; plat_file_contexts /system/bin/bt_logger bt_logger_exec, /data/misc/bluedroid and /data/misc/bluetooth labels",
+    "vendor": "factory vendor keeps android.hardware.bluetooth@1.0, bluetooth.audio@2.0 and vendor.qti.hardware.btconfigstore HALs unchanged"
+  },
+  "validation": "tools/check-factory-bluetooth.py -> validation/factory-bluetooth.json",
+  "source_requirements": {
+    "native": "android.hidl.base@1.0 must be installed on system (PRODUCT_PACKAGES in device.mk); libbluetooth_qti and libbtconfigstore link it. All other DT_NEEDED and symbols of the 15 preserved ELF files resolve in the Source outputs.",
+    "framework_aidl": {
+      "android.bluetooth.IBluetoothGatt": "factory table has 57 transactions: registerCallback(IBluetoothLeCallback)=56, unregisterCallback=57 appended",
+      "android.bluetooth.le.IBluetoothLeCallback": "factory-only interface: onRegisterClientApp=1, onUnRegisterClientApp=2, onRegisterServerApp=3, onUnRegisterServerApp=4 (String package), not oneway",
+      "com.android.internal.app.IBatteryStats": "factory appends getIBatteryStatsOptEx=90 (Smartisan layer, stage 3); codes 1-89 match, Bluetooth.apk does not call it"
+    },
+    "framework_members": {
+      "javax.obex.ServerSession.reduceMTU(boolean)": "CodeLinaro frameworks/base obex donor",
+      "android.media.AudioManager.handleBluetoothA2dpActiveDeviceChange(BluetoothDevice,int,int,boolean,int)": "with the factory IAudioService table (stage 3)"
+    },
+    "selinux": "CodeLinaro device/qcom/sepolicy qva (bt_logger domain, /system/bin/bt_logger, Bluetooth property contexts) and the reconstructed factory PICO platform policy (tools/reconstruct-factory-sepolicy.py, validation/sepolicy-parity.json)",
+    "selinux_factory_domains_present": [
+      "dun-server",
+      "qvrd",
+      "qvrd_controller_socket",
+      "pvrtrackingservice",
+      "pvrtracking_service",
+      "pxr_notification_service",
+      "peripheralservice_service",
+      "binder_get_time_device",
+      "nativeleak_data_file",
+      "system_framework_file",
+      "sys_kernel_debug"
+    ]
+  }
+}

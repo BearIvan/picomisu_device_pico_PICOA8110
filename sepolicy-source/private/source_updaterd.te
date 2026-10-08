@@ -1,0 +1,27 @@
+# Picomisu Source: source_updaterd (device/pico/PICOA8110/source-update/updaterd) stages signed
+# Source OTA packages for the Source Update app (com.picovr.updatesystem, system uid) on the cache
+# partition and reboots to the updater recovery. Not in the factory 5.13.7 policy.
+type source_updaterd, domain, coredomain;
+type source_updaterd_exec, exec_type, file_type, system_file_type;
+type source_updater_socket, file_type, coredomain_socket, mlstrustedobject;
+
+init_daemon_domain(source_updaterd)
+
+# Its init socket; only the system uid app connects (the daemon also checks SO_PEERCRED).
+allow source_updaterd self:global_capability_class_set { fowner chown };
+unix_socket_connect(system_app, source_updater, source_updaterd)
+
+# The package arrives as an fd of the app (its files dir or /sdcard/dload).
+allow source_updaterd system_app:fd use;
+allow source_updaterd system_app_data_file:file { read getattr };
+allow source_updaterd { media_rw_data_file sdcardfs fuse vfat }:file { read getattr };
+
+# init mounts the cache partition on /mnt/source-ota-cache (source_updaterd.rc; only init and vold
+# may mount); the daemon writes source-ota/ there.
+allow source_updaterd tmpfs:dir { search getattr };
+allow source_updaterd cache_file:dir create_dir_perms;
+allow source_updaterd cache_file:file create_file_perms;
+allow source_updaterd unlabeled:dir r_dir_perms;
+
+# reboot,recovery
+set_prop(source_updaterd, powerctl_prop)

@@ -1,0 +1,40 @@
+{
+  "format_version": 1,
+  "pico_build": "5.13.7 SEKO b9665",
+  "aosp_tag": "android-10.0.0_r47",
+  "output_kind": "hybrid-prototype",
+  "factory_preserved": [
+    "root init scripts and filesystem layout",
+    "complete framework, framework-res, boot classpath and precompiled code",
+    "complete ARM32/ARM64 libraries, bootstrap linkers and ART/runtime APEX",
+    "all factory system APKs with their original certificates and shared UIDs",
+    "system configuration, SELinux policy, permissions, cgroups and VR resources",
+    "all factory VR executables and service configuration",
+    "factory kernel, device trees, vendor, product and odm"
+  ],
+  "aosp_executable_allowlist": ["logcat", "sh", "toybox"],
+  "aosp_executable_destination": "/system/xbin/aosp",
+  "aosp_boot_executable_allowlist": ["servicemanager"],
+  "aosp_apk_allowlist": [
+    {"module": "DeskClock", "package": "com.android.deskclock"}
+  ],
+  "allowlisted_executable_shared_libraries": [
+    "libc.so", "libdl.so", "liblog.so", "libm.so", "libc++.so",
+    "libbase.so", "libcutils.so", "libselinux.so", "libpcrecpp.so",
+    "libpcre.so", "libprocessgroup.so", "libpackagelistparser.so", "libcrypto.so", "libz.so"
+  ],
+  "additional_executable_symbol_providers": [
+    "/apex/com.android.runtime/bin/linker64"
+  ],
+  "forbidden_factory_absent_blobs": ["agent_frame.so"],
+  "validation_required": [
+    "factory hashes and filesystem metadata",
+    "AOSP executable ELF import resolution in preserved runtime",
+    "package-name, certificate and shared-UID conflicts",
+    "exact factory boot and system-server classpaths",
+    "system partition size, ext4 consistency and AVB chain",
+    "on-device boot and VR smoke tests"
+  ],
+  "full_aosp_framework_port_complete": false,
+  "on_device_vr_tested": false
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Factory PICO OS 5.13.7 supported locales. ("Device ..." strings come from PRODUCT_CHARACTERISTICS=device.) -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string-array translatable="false" name="supported_locales">
+        <item>cs-CZ</item>
+        <item>da-DK</item>
+        <item>nl-NL</item>
+        <item>en-US</item>
+        <item>en-GB</item>
+        <item>fi-FI</item>
+        <item>fr-FR</item>
+        <item>de-DE</item>
+        <item>el-GR</item>
+        <item>it-IT</item>
+        <item>ja-JP</item>
+        <item>ko-KR</item>
+        <item>ms-MY</item>
+        <item>nb-NO</item>
+        <item>pl-PL</item>
+        <item>pt-PT</item>
+        <item>pt-BR</item>
+        <item>ro-RO</item>
+        <item>ru-RU</item>
+        <item>es-US</item>
+        <item>es-ES</item>
+        <item>sv-SE</item>
+        <item>th-TH</item>
+        <item>tr-TR</item>
+        <item>zh-Hans-CN</item>
+        <item>zh-Hant-TW</item>
+        <item>zh-Hant-HK</item>
+    </string-array>
+</resources>

@@ -1,0 +1,24 @@
+// vendor.qti.hardware.audiohalext@1.0, reconstructed from the factory PICO OS 5.13.7
+// libraries (see types.hal). The factory image has the interface library only on
+// /product and /vendor (no /system copy): the system libaudiopolicymanager.so (and the
+// factory libavenhancements.so) load /product/lib64/vendor.qti.hardware.audiohalext@1.0.so.
+// The Source image keeps the factory product and vendor partitions, so the library built
+// here is only the link-time interface (same exports, vtable and parcel layout); it is
+// product specific so that nothing is added to /system.
+// The interface hash of these .hal files differs from the factory one
+// (26c06b03bd080d4dae5be237cb0a3234377a85cebab5f7fcd7bcd3ec7af6a5d9): the original text
+// is not available. The hash is only reported by getHashChain() of the factory library.
+
+hidl_interface {
+    name: "vendor.qti.hardware.audiohalext@1.0",
+    root: "vendor.qti.hardware.audiohalext",
+    product_specific: true,
+    srcs: [
+        "types.hal",
+        "IAudioHalExt.hal",
+    ],
+    interfaces: [
+        "android.hidl.base@1.0",
+    ],
+    gen_java: false,
+}

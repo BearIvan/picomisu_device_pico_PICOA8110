@@ -1,0 +1,8 @@
+// QTI audio HAL extension interface used by the factory PICO OS 5.13.7 system
+// (AUDIO_FEATURE_ENABLED_AHAL_EXT of the CAF policy_hal, libaudiopolicymanager.so),
+// reconstructed because the QTI sources (vendor/qcom/proprietary/commonsys/mm-audio/
+// audio-hal-ext) are not in the open CAF tree.
+
+hidl_package_root {
+    name: "vendor.qti.hardware.audiohalext",
+}

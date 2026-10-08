@@ -1,0 +1,111 @@
+// Factory PICO OS 5.13.7 libraries that the factory system libraries link directly
+// (DT_NEEDED) and that the Source image keeps as binaries: they have no published source.
+//
+//   libsysperftracker      mtp::SysMtpClient, PICO system monitor client (libhwui,
+//                          libsurfaceflinger); /system/lib and /system/lib64
+//   libaudioeventtracking  android::pico::audioeventtracking::AudioEventTracker (libaudioflinger,
+//                          libaudiopolicyservice, libaudiopolicymanager); /system/lib64 only
+//   libpxrmediametrics     android::pico::PxrMediaAnalyticsItem (libstagefright);
+//                          /system/lib and /system/lib64
+//   libmmparserextractor   QTI mm-parser media extractor (closed vendor/qcom/proprietary/mm-parser,
+//                          not in CodeLinaro); media.extractor dlopens it from
+//                          /system/lib{,64}/extractors; it links the factory libmmparser_lite and
+//                          libmmosal that the image carries, and the QTI MEDIA_MIMETYPE_* /
+//                          FileSource symbols of the CAF libstagefright{,_foundation} and libmediandk
+//   libvraudio             QTI 3D/VR audio (android::VRAudioServiceNative, "vendor.audio.vrservice");
+//                          the factory audioserver links it (AUDIO_FEATURE_ENABLED_3D_AUDIO, as the
+//                          CAF qssi.mk sets); /system/lib and /system/lib64
+//
+// tools/install-device-tree.py extracts the binaries from the verified factory system.img into
+// factory/lib*/ (SHA-256 checked, not stored in Git). They are installed unstripped, so the
+// built files are the factory files. The headers declare only the exported members Source
+// calls, by their factory mangled names. The libraries' own dependencies (libswitchstate,
+// libsysmtpdata, libjsoncpp, ...) are on the image already; check_elf_files is off as for the
+// other factory prebuilts.
+
+cc_prebuilt_library_shared {
+    name: "libsysperftracker",
+    export_include_dirs: ["sysperftracker/include"],
+    arch: {
+        arm: {
+            srcs: ["factory/lib/libsysperftracker.so"],
+        },
+        arm64: {
+            srcs: ["factory/lib64/libsysperftracker.so"],
+        },
+    },
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+}
+
+// The factory has only the 64-bit library; the header also serves the 32-bit builds of the
+// audio libraries (inline no-op members there).
+cc_library_headers {
+    name: "libaudioeventtracking_headers",
+    export_include_dirs: ["audioeventtracking/include"],
+    header_libs: ["libaudio_system_headers"],
+    export_header_lib_headers: ["libaudio_system_headers"],
+}
+
+cc_prebuilt_library_shared {
+    name: "libaudioeventtracking",
+    compile_multilib: "64",
+    srcs: ["factory/lib64/libaudioeventtracking.so"],
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+}
+
+cc_prebuilt_library_shared {
+    name: "libpxrmediametrics",
+    export_include_dirs: ["pxrmediametrics/include"],
+    arch: {
+        arm: {
+            srcs: ["factory/lib/libpxrmediametrics.so"],
+        },
+        arm64: {
+            srcs: ["factory/lib64/libpxrmediametrics.so"],
+        },
+    },
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+}
+
+cc_prebuilt_library_shared {
+    name: "libmmparserextractor",
+    relative_install_path: "extractors",
+    arch: {
+        arm: {
+            srcs: ["factory/lib/extractors/libmmparserextractor.so"],
+        },
+        arm64: {
+            srcs: ["factory/lib64/extractors/libmmparserextractor.so"],
+        },
+    },
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+}
+
+// main_audioserver.cpp declares the VRAudioServiceNative members it uses (VRAUDIOSERVICE_ENABLE).
+cc_prebuilt_library_shared {
+    name: "libvraudio",
+    arch: {
+        arm: {
+            srcs: ["factory/lib/libvraudio.so"],
+        },
+        arm64: {
+            srcs: ["factory/lib64/libvraudio.so"],
+        },
+    },
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+}

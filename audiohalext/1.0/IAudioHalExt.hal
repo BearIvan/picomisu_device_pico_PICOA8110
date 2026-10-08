@@ -1,0 +1,16 @@
+/*
+ * Reconstructed for the PICO 4 Pro (PICOA8110) Source build from the factory
+ * PICO OS 5.13.7 product/lib64/vendor.qti.hardware.audiohalext@1.0.so:
+ * descriptor "vendor.qti.hardware.audiohalext@1.0::IAudioHalExt", transaction 1
+ * getApmConfigs (reply ApmConfigs, 0x38 bytes), transaction 2 getAVConfigs (reply
+ * AVConfigs, 0x30 bytes). Served by the factory vendor
+ * vendor.qti.hardware.audiohalext@1.0-impl.so (instance "default", hwbinder).
+ */
+
+package vendor.qti.hardware.audiohalext@1.0;
+
+interface IAudioHalExt {
+    getApmConfigs() generates (ApmConfigs configs);
+
+    getAVConfigs() generates (AVConfigs configs);
+};

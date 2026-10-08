@@ -1,0 +1,143 @@
+{
+ "firmware": "PICO OS 5.13.7 (PICOA8110 SEKO)",
+ "files": [
+  {
+   "dest": "cryptfs_hw/factory/lib64/libcryptfs_hw.so",
+   "partition": "product",
+   "path": "/lib64/libcryptfs_hw.so",
+   "sha256": "e695b935f63a4f15e8eee3455adbadfd47b62e78172b3c212c8e03691d4d66df"
+  },
+  {
+   "dest": "factory-framework/factory/sysmonitor-framework.jar",
+   "partition": "system",
+   "path": "/system/framework/sysmonitor-framework.jar",
+   "sha256": "f5210d68e6d64cf856f1086b1bcdd509f7291822a44c208d2f3f45c40d600500"
+  },
+  {
+   "dest": "factory-framework/factory/sys-framework.jar",
+   "partition": "system",
+   "path": "/system/framework/sys-framework.jar",
+   "sha256": "6d2bed55033a8b23be7f4d8ad51720f748d2cfcdb5b1cc3c399fc178f9614ac1"
+  },
+  {
+   "dest": "factory-framework/factory/devicemiddlewareimpl.jar",
+   "partition": "system",
+   "path": "/system/framework/devicemiddlewareimpl.jar",
+   "sha256": "fd208b7b48dd963373bf4ff45ec2ec60219e7395c8c75f87af1051c6eb9500d4"
+  },
+  {
+   "dest": "factory-framework/factory/vrex-framework.jar",
+   "partition": "system",
+   "path": "/system/framework/vrex-framework.jar",
+   "sha256": "8dcc98da32409a588e4b481e4eda0c9549879db5242a96a69ecd61b38c4956fd"
+  },
+  {
+   "dest": "factory-framework/factory/QPerformance.jar",
+   "partition": "system",
+   "path": "/system/framework/QPerformance.jar",
+   "sha256": "44c1b57b3a0571757837eeefac74c6d0ee0d61a4f740b45fb62af717ec264e90"
+  },
+  {
+   "dest": "factory-framework/factory/UxPerformance.jar",
+   "partition": "system",
+   "path": "/system/framework/UxPerformance.jar",
+   "sha256": "721bcaacb5a2a66e72f247fdbb14c377d9750f4faf07daedbe2c7ed628624327"
+  },
+  {
+   "dest": "factory-framework/factory/WfdCommon.jar",
+   "partition": "system",
+   "path": "/system/framework/WfdCommon.jar",
+   "sha256": "7ce102a3585bf6d5eddc8e8ae502f59daab3e06e91568176f6932f5860ada430"
+  },
+  {
+   "dest": "factory-framework/factory/sys-services.jar",
+   "partition": "system",
+   "path": "/system/framework/sys-services.jar",
+   "sha256": "fdac1687b2dc8d4a4a0f2d4d1624b70559cd4d50d87c408750744ac065e78b1f"
+  },
+  {
+   "dest": "factory-framework/factory/sysmonitor-services.jar",
+   "partition": "system",
+   "path": "/system/framework/sysmonitor-services.jar",
+   "sha256": "51ac945b8d822e7074e47175b36c6a9c20a8b252b425538a040f8896d0b03a79"
+  },
+  {
+   "dest": "factory-framework/factory/vrex-services.jar",
+   "partition": "system",
+   "path": "/system/framework/vrex-services.jar",
+   "sha256": "8448e7e64a32bb4cd4a03315843a8c85692e59da8ecfe77705e25598118b2ebb"
+  },
+  {
+   "dest": "factory-framework/etc/OptPackageWhiteList.xml",
+   "partition": "system",
+   "path": "/system/etc/OptPackageWhiteList.xml",
+   "sha256": "2ccb6677541d086853517dcb6e79432486f0bcea84bb6d1b9c4284d463863425"
+  },
+  {
+   "dest": "factory-framework/etc/OptAppInfoWhiteList.xml",
+   "partition": "system",
+   "path": "/system/etc/OptAppInfoWhiteList.xml",
+   "sha256": "3a3544958e03d7f5bc247b82bd0bbe51f7ba038cdc66648a15332e5ef6a1a160"
+  },
+  {
+   "dest": "factory-framework/etc/AppCompositionWhiteList.xml",
+   "partition": "system",
+   "path": "/system/etc/AppCompositionWhiteList.xml",
+   "sha256": "828c569b7bb663d0ecff7f5f748033d53985e2124e7a631df499c0c2cfa28c00"
+  },
+  {
+   "dest": "factory-libs/factory/lib/libsysperftracker.so",
+   "partition": "system",
+   "path": "/system/lib/libsysperftracker.so",
+   "sha256": "409254ca297f9ab1adcc0b99d9f2c98f494bdfaec5ec8b802038846016be4678"
+  },
+  {
+   "dest": "factory-libs/factory/lib64/libsysperftracker.so",
+   "partition": "system",
+   "path": "/system/lib64/libsysperftracker.so",
+   "sha256": "8c766a8f83ff0ae3a82cbb85b6a5c2e54ed3b5cc480e532f5fa6f07ce6071ec0"
+  },
+  {
+   "dest": "factory-libs/factory/lib64/libaudioeventtracking.so",
+   "partition": "system",
+   "path": "/system/lib64/libaudioeventtracking.so",
+   "sha256": "e103ff7447776a985f69ea71f54a58eeebc9dc0c6032ab894c8ea4e6af676c6b"
+  },
+  {
+   "dest": "factory-libs/factory/lib/libpxrmediametrics.so",
+   "partition": "system",
+   "path": "/system/lib/libpxrmediametrics.so",
+   "sha256": "a9f0471ae715e92e3c2b72bf081022169f2e3612e9ae9ac7af8bca02c467df8b"
+  },
+  {
+   "dest": "factory-libs/factory/lib64/libpxrmediametrics.so",
+   "partition": "system",
+   "path": "/system/lib64/libpxrmediametrics.so",
+   "sha256": "70e6ccec65b52d3d293d117007a5bb47e5a54ec6edf6a4a64e9151da909dcd42"
+  },
+  {
+   "dest": "factory-libs/factory/lib/extractors/libmmparserextractor.so",
+   "partition": "system",
+   "path": "/system/lib/extractors/libmmparserextractor.so",
+   "sha256": "9c041c5bf1e637008b246cb12eb133bc7562b0bcbc76bc63699e838072c9bba4"
+  },
+  {
+   "dest": "factory-libs/factory/lib64/extractors/libmmparserextractor.so",
+   "partition": "system",
+   "path": "/system/lib64/extractors/libmmparserextractor.so",
+   "sha256": "0ee2cf6554f11627dae09ca98d6d1ef0c588e85ee3d7481a0028a567f16dc448"
+  },
+  {
+   "dest": "factory-libs/factory/lib/libvraudio.so",
+   "partition": "system",
+   "path": "/system/lib/libvraudio.so",
+   "sha256": "50db921f04d71a22773f0316fd0c1816c81663e7039e46b9b7bcf7886642d831"
+  },
+  {
+   "dest": "factory-libs/factory/lib64/libvraudio.so",
+   "partition": "system",
+   "path": "/system/lib64/libvraudio.so",
+   "sha256": "67bd8a801dbabdd2c31fa8393dddf95e1b2a3ebcb8d51ebc20a7313118a643af"
+  }
+ ]
+}

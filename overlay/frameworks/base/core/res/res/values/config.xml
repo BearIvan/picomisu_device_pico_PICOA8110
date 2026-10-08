@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Factory PICO OS 5.13.7 framework-res values that differ from the CAF LA.UM.8.12 defaults
+     (aapt dump of the factory framework-res.apk vs the CAF build; outputs/audit/config.md).
+     Only (default)-configuration values; resource ID shifts of reference arrays are not changes.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Setup/provisioning: the PICO matrix service provisions the device. -->
+    <string name="config_deviceProvisioningPackage" translatable="false">com.bytedance.pico.matrix</string>
+
+    <!-- Power, sleep and dreams: no SystemUI dreams/doze UI on the headset. -->
+    <bool name="config_dreamsSupported">false</bool>
+    <bool name="config_enableAutoPowerModes">true</bool>
+    <bool name="config_enableWallpaperService">false</bool>
+    <bool name="config_cameraDoubleTapPowerGestureEnabled">false</bool>
+    <integer name="config_shortPressOnPowerBehavior">2</integer>
+    <integer name="config_globalActionsKeyTimeout">2000</integer>
+    <integer name="config_lowBatteryWarningLevel">19</integer>
+    <integer name="config_screenBrightnessSettingDefault">164</integer>
+
+    <!-- Home key (handled by PICO code in VR; factory values). -->
+    <integer name="config_doubleTapOnHomeBehavior">1</integer>
+    <integer name="config_longPressOnHomeBehavior">3</integer>
+
+    <!-- Audio: single-volume device, no SystemUI safe-volume dialog. -->
+    <bool name="config_single_volume">true</bool>
+    <bool name="config_safe_media_volume_enabled">false</bool>
+
+    <!-- Network. -->
+    <integer name="config_networkAvoidBadWifi">0</integer>
+    <integer name="config_ntpRetry">5</integer>
+    <string name="config_ntpServer" translatable="false">asia.pool.ntp.org</string>
+
+    <!-- Tethering (the vendor RRO FrameworksResCommon sets the same values). -->
+    <string-array translatable="false" name="config_tether_usb_regexs">
+        <item>"usb\\d"</item>
+        <item>"rndis\\d"</item>
+    </string-array>
+    <string-array translatable="false" name="config_tether_wifi_regexs">
+        <item>"softap0"</item>
+        <item>"wigig0"</item>
+        <item>"wifi_br0"</item>
+    </string-array>
+    <string-array translatable="false" name="config_tether_bluetooth_regexs">
+        <item>"bnep\\d"</item>
+        <item>"bt-pan"</item>
+    </string-array>
+    <string-array translatable="false" name="config_tether_dhcp_range">
+        <item>192.168.42.2</item>
+        <item>192.168.42.254</item>
+        <item>192.168.43.2</item>
+        <item>192.168.43.254</item>
+        <item>192.168.44.2</item>
+        <item>192.168.44.254</item>
+        <item>192.168.45.2</item>
+        <item>192.168.45.254</item>
+        <item>192.168.46.2</item>
+        <item>192.168.46.254</item>
+        <item>192.168.47.2</item>
+        <item>192.168.47.254</item>
+        <item>192.168.48.2</item>
+        <item>192.168.48.254</item>
+        <item>192.168.49.2</item>
+        <item>192.168.49.254</item>
+        <item>192.168.50.2</item>
+        <item>192.168.50.254</item>
+        <item>192.168.51.2</item>
+        <item>192.168.51.254</item>
+    </string-array>
+    <integer-array translatable="false" name="config_tether_upstream_types">
+        <item>0</item>
+        <item>1</item>
+        <item>5</item>
+        <item>7</item>
+    </integer-array>
+</resources>

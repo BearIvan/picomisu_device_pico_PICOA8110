@@ -1,0 +1,11 @@
+# Picomisu Source: the factory pxreyetrackingservice.rc definition, plus libpxreyetracking_tob.so
+# preloaded for the business eye tracking mode of this service only (see eyetracking_tob.cpp).
+# Parsed after pxreyetrackingservice.rc (init sorts the files of a directory).
+service pxreyetrackingservice /system/bin/pxreyetrackingservice
+    override
+    class core
+    user root
+    group root
+    writepid /dev/cpuset/foreground/tasks
+    setenv ASAN_OPTIONS halt_on_error=0
+    setenv LD_PRELOAD libpxreyetracking_tob.so

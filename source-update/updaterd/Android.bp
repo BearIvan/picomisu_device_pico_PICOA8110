@@ -1,0 +1,21 @@
+// Picomisu Source: root side of the Source Update app (see source_updaterd.cpp).
+cc_binary {
+    name: "source_updaterd",
+    srcs: ["source_updaterd.cpp"],
+    shared_libs: [
+        "libbase",
+        "libcrypto",
+        "libcutils",
+        "libjsoncpp",
+        "liblog",
+        "libziparchive",
+    ],
+    cflags: ["-Wall", "-Werror"],
+    init_rc: ["source_updaterd.rc"],
+}
+
+// Logs the first boot after a Source update to the cache partition (see source-firstboot.sh).
+sh_binary {
+    name: "source-firstboot.sh",
+    src: "source-firstboot.sh",
+}

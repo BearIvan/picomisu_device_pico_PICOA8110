@@ -1,0 +1,77 @@
+/*
+ * Reconstructed for the PICO 4 Pro (PICOA8110) Source build from the factory
+ * PICO OS 5.13.7 binaries: product/lib64/vendor.qti.hardware.audiohalext@1.0.so
+ * (generated parcel code: field offsets and embedded strings, declaration order of
+ * the readEmbeddedFromParcel/writeEmbeddedToParcel helpers) and
+ * vendor/lib64/hw/vendor.qti.hardware.audiohalext@1.0-impl.so (property and
+ * audio config store keys filled into each field, in field order).
+ *
+ * ApmValues uses the field names of the CAF policy_hal APMConfigHelper.h
+ * (LA.UM.8.12.c3-64900-sm8250.0), which reads this structure. The AVValues names
+ * are derived from the keys the factory implementation reads.
+ */
+
+package vendor.qti.hardware.audiohalext@1.0;
+
+struct OptionalString {
+    bool specified;
+    string value;
+};
+
+/* Audio policy manager settings (AudioPolicyManagerCustom, APMConfigHelper). */
+struct ApmValues {
+    bool audio_offload_video;                   // audio.offload.video
+    bool audio_offload_disable;                 // audio.offload.disable
+    bool audio_deepbuffer_media;                // audio.deep_buffer.media
+    bool audio_av_streaming_offload_enable;     // vendor.audio.av.streaming.offload.enable
+    bool audio_offload_track_enable;            // vendor.audio.offload.track.enable
+    bool audio_offload_multiple_enabled;        // vendor.audio.offload.multiple.enabled
+    bool voice_dsd_playback_conc_disabled;      // vendor.voice.dsd.playback.conc.disabled
+    bool audio_sva_conc_enabled;                // persist.vendor.audio.sva.conc.enabled
+    bool audio_va_concurrency_enabled;          // persist.vendor.audio.va_concurrency_enabled
+    bool audio_rec_playback_conc_disabled;      // vendor.audio.rec.playback.conc.disabled
+    bool voice_path_for_pcm_voip;               // vendor.voice.path.for.pcm.voip
+    bool voice_playback_conc_disabled;          // vendor.voice.playback.conc.disabled
+    bool voice_record_conc_disabled;            // vendor.voice.record.conc.disabled
+    bool voice_voip_conc_disabled;              // vendor.voice.voip.conc.disabled
+    uint32_t audio_offload_min_duration_secs;   // audio.offload.min.duration.secs
+    string voice_conc_fallbackpath;             // vendor.voice.conc.fallbackpath
+    bool audio_extn_hdmi_spk_enabled;           // audio_extn_hdmi_spk_enabled
+    bool audio_extn_formats_enabled;            // audio_extn_formats_enabled
+    bool audio_extn_afe_proxy_enabled;          // afe_proxy_enabled
+    bool compress_voip_enabled;                 // compress_voip_enabled
+    bool fm_power_opt;                          // fm_power_opt
+    bool voice_concurrency;                     // voice_concurrency
+    bool record_play_concurrency;               // record_play_concurrency
+    bool use_xml_audio_policy_conf;             // use_xml_audio_policy_conf
+};
+
+struct ApmConfigs {
+    bool specified;
+    ApmValues value;
+};
+
+/* Media framework settings (libavenhancements AVConfigHelper). */
+struct AVValues {
+    bool audio_use_sw_alac_decoder;             // vendor.audio.use.sw.alac.decoder
+    bool audio_use_sw_ape_decoder;              // vendor.audio.use.sw.ape.decoder
+    bool audio_use_sw_mpegh_decoder;            // vendor.audio.use.sw.mpegh.decoder
+    bool audio_flac_sw_decoder_24bit;           // vendor.audio.flac.sw.decoder.24bit
+    bool audio_hw_aac_encoder;                  // vendor.audio.hw.aac.encoder
+    string audio_debug_sf_noaudio;              // persist.vendor.audio.debug.sf.noaudio
+    uint32_t audio_record_aggregate_buffer_duration; // vendor.audio.record.aggregate.buffer.duration
+    bool aac_adts_offload_enabled;              // aac_adts_offload_enabled
+    bool alac_offload_enabled;                  // alac_offload_enabled
+    bool ape_offload_enabled;                   // ape_offload_enabled
+    bool flac_offload_enabled;                  // flac_offload_enabled
+    bool pcm_offload_enabled_16;                // pcm_offload_enabled_16
+    bool pcm_offload_enabled_24;                // pcm_offload_enabled_24
+    bool qti_flac_decoder;                      // qti_flac_decoder
+    bool vorbis_offload_enabled;                // vorbis_offload_enabled
+    bool wma_offload_enabled;                   // wma_offload_enabled
+};
+
+struct AVConfigs {
+    bool specified;
+    AVValues value;
+};

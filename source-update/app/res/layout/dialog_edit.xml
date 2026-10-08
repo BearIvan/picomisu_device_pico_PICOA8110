@@ -1,0 +1,11 @@
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/edit_bg"
+    android:inputType="textUri"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:singleLine="true"
+    android:textColor="@color/text_primary"
+    android:textColorHint="#4DFFFFFF"
+    android:textSize="14sp"/>

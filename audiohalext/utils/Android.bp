@@ -1,0 +1,22 @@
+// vendor.qti.hardware.audiohalext-utils: /system/lib and /system/lib64 of the factory
+// PICO OS 5.13.7 image (DT_NEEDED libbase, libhidlbase,
+// vendor.qti.hardware.audiohalext@1.0). Linked by libaudiopolicymanager
+// (vendor/qcom/opensource/audio/policy_hal, AUDIO_FEATURE_ENABLED_AHAL_EXT) and by the
+// factory libavenhancements.so.
+
+cc_library_shared {
+    name: "vendor.qti.hardware.audiohalext-utils",
+    defaults: ["hidl_defaults"],
+    srcs: ["ConfigStoreUtils.cpp"],
+    export_include_dirs: ["include"],
+    shared_libs: [
+        "libbase",
+        "libhidlbase",
+        "vendor.qti.hardware.audiohalext@1.0",
+    ],
+    export_shared_lib_headers: [
+        "libbase",
+        "libhidlbase",
+        "vendor.qti.hardware.audiohalext@1.0",
+    ],
+}

@@ -1,0 +1,14 @@
+// Picomisu Source: preloaded into the factory pxreyetrackingservice, see eyetracking_tob.cpp.
+cc_library_shared {
+    name: "libpxreyetracking_tob",
+    srcs: ["eyetracking_tob.cpp"],
+    cflags: ["-Wall", "-Werror"],
+    system_shared_libs: ["libc"],
+    stl: "none",
+}
+
+prebuilt_etc {
+    name: "pxreyetrackingservice_tob.rc",
+    src: "pxreyetrackingservice_tob.rc",
+    sub_dir: "init",
+}

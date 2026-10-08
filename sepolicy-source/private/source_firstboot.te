@@ -1,0 +1,23 @@
+# Picomisu Source: source-firstboot.sh (device/pico/PICOA8110/source-update/updaterd) keeps logcat of
+# the first boot after a Source update on the cache partition. Not in the factory 5.13.7 policy.
+type source_firstboot, domain, coredomain;
+type source_firstboot_exec, exec_type, file_type, system_file_type;
+
+init_daemon_domain(source_firstboot)
+
+allow source_firstboot shell_exec:file rx_file_perms;
+allow source_firstboot toolbox_exec:file rx_file_perms;
+allow source_firstboot logcat_exec:file rx_file_perms;
+read_logd(source_firstboot)
+allow source_firstboot self:process signal;
+
+# /mnt/source-ota-cache (mounted by init, source_updaterd.rc).
+allow source_firstboot tmpfs:dir search;
+allow source_firstboot cache_file:dir rw_dir_perms;
+allow source_firstboot cache_file:file create_file_perms;
+allow source_firstboot proc_uptime:file r_file_perms;
+
+# logcat raises its priority and probes the kernel log; neither is needed for the file it writes.
+dontaudit source_firstboot self:global_capability_class_set { dac_override sys_nice };
+dontaudit source_firstboot kmsg_device:chr_file { open read };
+dontaudit source_firstboot kernel:system syslog_read;

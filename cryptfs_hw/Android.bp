@@ -1,0 +1,32 @@
+// Build inputs for vold with CONFIG_HW_DISK_ENCRYPTION, as on the factory
+// PICO OS 5.13.7 system (its /system/bin/vold has DT_NEEDED libcryptfs_hw.so).
+//
+// cryptfs_hw.h is copied unchanged from CodeLinaro
+// platform/vendor/qcom-opensource/cryptfs_hw, tag LA.UM.8.12.c3-64900-sm8250.0
+// (commit fef14665a1d73bc56c94974d1e19af47257a3e0e, blob d7ed51e0).
+//
+// The library is the factory product/lib64/libcryptfs_hw.so itself
+// (SHA-256 e695b935...4d66df). The Source image keeps the factory product
+// partition (BOARD_PREBUILT_PRODUCTIMAGE), so this exact binary is what vold
+// loads at runtime. The CodeLinaro source calls the proprietary
+// vendor.qti.hardware.cryptfshw@1.0 HAL, whose .hal is not published, so the
+// library is not rebuilt here. tools/install-device-tree.py extracts it from
+// the verified factory product.img into factory/lib64 (not stored in Git).
+// Factory product has only the arm64 library; only the 64-bit vold links it.
+
+cc_library_headers {
+    name: "libcryptfs_hw_headers",
+    export_include_dirs: ["."],
+}
+
+cc_prebuilt_library_shared {
+    name: "libcryptfs_hw",
+    product_specific: true,
+    compile_multilib: "64",
+    srcs: ["factory/lib64/libcryptfs_hw.so"],
+    export_include_dirs: ["."],
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+}

@@ -1,0 +1,7 @@
+# Factory PICO OS 5.13.7 files: ./extract-files.py STOCK_DIR
+/factory-libs/factory/
+/factory-framework/factory/
+/factory-framework/etc/
+/cryptfs_hw/factory/
+/stock/
+*.tmp

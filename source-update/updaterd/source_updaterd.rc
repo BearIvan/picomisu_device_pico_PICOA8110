@@ -1,0 +1,22 @@
+# Picomisu Source: stages Source OTA packages for the Source Update app (system uid only).
+service source_updaterd /system/bin/source_updaterd
+    class main
+    user root
+    group root system
+    socket source_updater stream 0660 root system
+
+# Logs the first boot after an update to the cache partition (source-firstboot.sh).
+service source_firstboot /system/bin/source-firstboot.sh
+    user root
+    group root log
+    disabled
+    oneshot
+
+# The cache partition (ext4, used by the updater recovery) is not mounted by Android on Source
+# (/cache is /data/cache); mount it for source_updaterd (only init and vold may mount). post-fs
+# (logd is up, /data is not needed) so the first-boot log starts as early as possible.
+on post-fs
+    mkdir /mnt/source-ota-cache 0700 root root
+    mount ext4 /dev/block/bootdevice/by-name/cache /mnt/source-ota-cache nosuid nodev noatime
+    restorecon_recursive /mnt/source-ota-cache
+    start source_firstboot

@@ -1,0 +1,64 @@
+// Factory PICO OS 5.13.7 class path JARs that the Source image keeps as
+// binaries (device/pico/PICOA8110/factory-bootclasspath.json).
+//
+// The JARs have no published source: PICO/Smartisan (sysmonitor-framework,
+// sys-framework, devicemiddlewareimpl, vrex-framework, sys-services,
+// sysmonitor-services, vrex-services) or
+// closed QTI (tcmiface, QPerformance, UxPerformance, WfdCommon). Each holds
+// one standard classes.dex with the factory hidden-API flags already encoded.
+// tools/install-device-tree.py extracts them from the verified factory
+// system.img into factory/ (SHA-256 checked, not stored in Git). The factory
+// oat/vdex files are not used: the build compiles the boot JARs into the
+// Source boot image and dexpreopts the system server JARs against it.
+// tools/check-factory-component.py verifies every reference of these JARs
+// against the Source class paths.
+
+dex_import {
+    name: "sysmonitor-framework",
+    jars: ["factory/sysmonitor-framework.jar"],
+}
+
+dex_import {
+    name: "sys-framework",
+    jars: ["factory/sys-framework.jar"],
+}
+
+dex_import {
+    name: "devicemiddlewareimpl",
+    jars: ["factory/devicemiddlewareimpl.jar"],
+}
+
+dex_import {
+    name: "vrex-framework",
+    jars: ["factory/vrex-framework.jar"],
+}
+
+dex_import {
+    name: "QPerformance",
+    jars: ["factory/QPerformance.jar"],
+}
+
+dex_import {
+    name: "UxPerformance",
+    jars: ["factory/UxPerformance.jar"],
+}
+
+dex_import {
+    name: "WfdCommon",
+    jars: ["factory/WfdCommon.jar"],
+}
+
+dex_import {
+    name: "sys-services",
+    jars: ["factory/sys-services.jar"],
+}
+
+dex_import {
+    name: "sysmonitor-services",
+    jars: ["factory/sysmonitor-services.jar"],
+}
+
+dex_import {
+    name: "vrex-services",
+    jars: ["factory/vrex-services.jar"],
+}

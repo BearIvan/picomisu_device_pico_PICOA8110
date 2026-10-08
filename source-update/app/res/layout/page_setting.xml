@@ -1,0 +1,156 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/page_bg"
+    android:clickable="true"
+    android:focusable="true"
+    android:overScrollMode="never"
+    android:visibility="gone">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="90dp"
+            android:text="@string/more_settings"
+            style="@style/SectionLabel"/>
+
+        <LinearLayout
+            android:id="@+id/update_offline"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/row_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/offline_upgrade"
+                style="@style/RowText"/>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:alpha="0.3"
+                android:padding="4dp"
+                android:src="@drawable/icon_arrow_right"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/update_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/row_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_server"
+                    style="@style/ItemTitle"/>
+                <TextView
+                    android:id="@+id/update_server_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    style="@style/ItemSubtitle"/>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:alpha="0.3"
+                android:padding="4dp"
+                android:src="@drawable/icon_arrow_right"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="34dp"
+            android:text="@string/update_settings"
+            style="@style/SectionLabel"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/auto_download" style="@style/ItemTitle"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/auto_download_tips" style="@style/ItemSubtitle"/>
+            </LinearLayout>
+            <Switch
+                android:id="@+id/open_auto_upgrade"
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="15dp"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_track"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/systemupdate_setting_auto_update_switch" style="@style/ItemTitle"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/systemupdate_setting_auto_update_desc" style="@style/ItemSubtitle"/>
+            </LinearLayout>
+            <Switch
+                android:id="@+id/open_auto_update"
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="15dp"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_track"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

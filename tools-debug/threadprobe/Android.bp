@@ -1,0 +1,6 @@
+// Picomisu debug tool, not in PRODUCT_PACKAGES: build with `m threadprobe` and push.
+cc_binary {
+    name: "threadprobe",
+    srcs: ["threadprobe.c"],
+    cflags: ["-Wall", "-Werror"],
+}
