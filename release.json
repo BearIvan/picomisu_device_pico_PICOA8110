@@ -4,7 +4,7 @@
   "incremental": "2026100302",
   "base_release": "2.20",
   "base_fs": "base_fs/2.20.txt",
-  "changelog": "CHANGELOG.md in picomisu_manifest",
+  "changelog": "CHANGELOG.md in github.com/BearIvan/picomisu",
   "name": "source-{version}",
   "pico_build": "5.13.7 SEKO b9665",
   "aosp_tag": "LA.UM.8.12.c3-64900-sm8250.0",
